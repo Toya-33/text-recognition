@@ -37,7 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_ml_kit: ^0.16.3
   image_picker: ^1.0.7
-  
+  rive: ^0.12.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -61,9 +62,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/login_screen_character.riv
+    - assets/animated_login_character.riv
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
