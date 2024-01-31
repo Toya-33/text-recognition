@@ -38,7 +38,8 @@ dependencies:
   google_ml_kit: ^0.16.3
   image_picker: ^1.0.7
   rive: ^0.12.4
-
+  shared_preferences: ^2.0.13
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
