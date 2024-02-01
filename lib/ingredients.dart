@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class IngredientScreen extends StatefulWidget {
-  const IngredientScreen({super.key, required this.scannedText});
+  const IngredientScreen({
+    super.key,
+    required this.scannedText,
+  });
 
   final String scannedText;
-
   // This widget is the root of your application.
   @override
   State<IngredientScreen> createState() => _IngredientScreenState();

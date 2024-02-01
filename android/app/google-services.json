@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "476611902671",
+    "project_id": "text-recognition-51de4",
+    "storage_bucket": "text-recognition-51de4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476611902671:android:076b2f3d75e72e5c178bba",
+        "android_client_info": {
+          "package_name": "com.oudong.text_recognition"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAatWreW83xHdDr4Qv8GYsBzNRzgRgHTxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

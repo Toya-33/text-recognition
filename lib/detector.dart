@@ -64,14 +64,6 @@ class _DetectorScreenState extends State<DetectorScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  if (textScanning) const CircularProgressIndicator(),
-                  if (!textScanning && imageFile == null)
-                    Container(
-                      width: 250,
-                      height: 250,
-                      color: Colors.grey,
-                    ),
-                  if (imageFile != null) Image.file(File(imageFile!.path)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -131,16 +123,28 @@ class _DetectorScreenState extends State<DetectorScreen> {
                     height: 10,
                   ),
                   if (imageFile != null)
-                    Container(child: Text(can_eat.toString())),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => IngredientScreen(
-                                    scannedText: scannedText)));
-                      },
-                      child: Text("View Details"))
+                    Column(children: [
+                      Container(
+                          child: Text(
+                        can_eat ? "Safe! 🤗" : "Not Safe! 💀",
+                        style: TextStyle(
+                            color: can_eat ? Colors.green : Colors.red,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Open Sans',
+                            fontSize: 40),
+                      )),
+                      Image.file(File(imageFile!.path)),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => IngredientScreen(
+                                          scannedText: scannedText,
+                                        )));
+                          },
+                          child: Text("View Details"))
+                    ]),
                 ],
               )),
         ),
@@ -187,7 +191,13 @@ class _DetectorScreenState extends State<DetectorScreen> {
     }
     textScanning = false;
     print(scannedText);
-    setState(() {});
+    setState(() {
+      if (can_eat == true) {
+        trigSuccess!.change(true);
+      } else {
+        trigFail!.change(true);
+      }
+    });
   }
 
   @override
