@@ -25,7 +25,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _usernameController = TextEditingController();
+  final _ingredientController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,34 +36,42 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Form(
         child: Column(
           children: [
-            TextFormField(
-              controller: _usernameController,
-              validator: (value) {
-                if (value?.isEmpty == true) {
-                  return 'Please enter a ingredients';
-                }
-                return null; // Valid input
-              },
-              decoration: InputDecoration(
-                labelText: 'Ingredient',
+            const SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: TextFormField(
+                controller: _ingredientController,
+                validator: (value) {
+                  if (value?.isEmpty == true) {
+                    return 'Please enter a ingredients';
+                  }
+                  return null; // Valid input
+                },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter your allergy here',
+                ),
               ),
             ),
             ElevatedButton(
               onPressed: () {
                 // Access the input value
-                final username = _usernameController.text;
+                String ingredients = _ingredientController.text;
 
                 // Apply conditional logic
-                if (username.isNotEmpty) {
+                if (ingredients.isNotEmpty) {
                   // Valid input: Perform actions
-                  print('Welcome, $username!');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DetectorScreen(ingredient: ingredients)));
                 } else {
                   // Invalid input: Handle errors
                   print('Please enter a valid username.');
                 }
-
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DetectorScreen()));
               },
               child: Text('Submit'),
             ),
@@ -74,42 +82,46 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MyRememberingWidget extends StatefulWidget {
-  @override
-  _MyRememberingWidgetState createState() => _MyRememberingWidgetState();
-}
+// class MyRememberingWidget extends StatefulWidget {
+//   @override
+//   const MyRememberingWidget({super.key, required this.ingredients});
+//   _MyRememberingWidgetState createState() => _MyRememberingWidgetState();
+// }
 
-class _MyRememberingWidgetState extends State<MyRememberingWidget> {
-  final _inputController = TextEditingController();
-  String _rememberedInput = '';
+// class _MyRememberingWidgetState extends State<MyRememberingWidget> {
+//   final _inputController = TextEditingController();
+//   String _rememberedInput = '';
 
-  @override
-  void initState() {
-    super.initState();
-    _loadRememberedInput();
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     _loadRememberedInput();
+//   }
 
-  Future<void> _loadRememberedInput() async {
-    final prefs = await SharedPreferences.getInstance();
-    final rememberedInput = prefs.getString('input_key');
-    setState(() {
-      _rememberedInput = rememberedInput ?? '';
-      _inputController.text = _rememberedInput;
-    });
-  }
+//   Future<void> _loadRememberedInput() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     final rememberedInput = prefs.getString('input_key');
+//     setState(() {
+//       _rememberedInput = rememberedInput ?? '';
+//       _inputController.text = _rememberedInput;
+//     });
+//   }
 
-  Future<void> _saveInput() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('input_key', _inputController.text);
-    setState(() {
-      _rememberedInput = _inputController.text;
-    });
-  }
+//   Future<void> _saveInput(String input) async {
+//     final prefs = await SharedPreferences.getInstance();
+//     await prefs.setString('input_key', input);
+//     setState(() {
+//       _rememberedInput = input;
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        // ... (rest of your UI)
-        );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+//           title: Text("list of ingredients"),
+//         ),
+//         body: Column(children: [Text(data)]),
+//       );
+//   }
+// }

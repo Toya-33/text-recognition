@@ -6,7 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rive/rive.dart';
 
 class DetectorScreen extends StatefulWidget {
-  const DetectorScreen({super.key});
+  const DetectorScreen({super.key, required this.ingredient});
+
+  final String ingredient;
 
   // This widget is the root of your application.
   @override
@@ -15,7 +17,7 @@ class DetectorScreen extends StatefulWidget {
 
 class _DetectorScreenState extends State<DetectorScreen> {
   bool textScanning = false;
-
+  bool can_eat = false;
   XFile? imageFile;
 
   String scannedText = "";
@@ -40,6 +42,7 @@ class _DetectorScreenState extends State<DetectorScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Text(widget.ingredient),
                   SizedBox(
                     width: size.width,
                     height: 200,
@@ -126,69 +129,13 @@ class _DetectorScreenState extends State<DetectorScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        padding: const EdgeInsets.only(top: 10),
-                        child: MaterialButton(
-                          onPressed: () {
-                            if (trigFail != null) {
-                              trigFail!.change(false);
-                            }
-                            if (trigSuccess == null) return;
-
-                            trigSuccess!.change(true);
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(5),
-                            child: const Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "Happy",
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.grey),
-                                  )
-                                ]),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        padding: const EdgeInsets.only(top: 10),
-                        child: MaterialButton(
-                          onPressed: () {
-                            if (trigSuccess != null) {
-                              trigSuccess!.change(false);
-                            }
-                            if (trigFail == null) return;
-
-                            trigFail!.change(true);
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(5),
-                            child: const Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "Sad",
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.grey),
-                                  )
-                                ]),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
                   Container(
                     child: Text(
                       scannedText,
                       style: TextStyle(fontSize: 20),
                     ),
-                  )
+                  ),
+                  Container(child: Text(can_eat.toString()))
                 ],
               )),
         ),
@@ -219,11 +166,17 @@ class _DetectorScreenState extends State<DetectorScreen> {
     final textDetector = GoogleMlKit.vision.textRecognizer();
     RecognizedText recognizedText = await textDetector.processImage(inputImage);
     await textDetector.close();
+    can_eat = false;
     scannedText = "";
     for (TextBlock block in recognizedText.blocks) {
       for (TextLine line in block.lines) {
         scannedText = "$scannedText${line.text}\n";
       }
+    }
+    if (scannedText.contains(widget.ingredient)) {
+      can_eat = false;
+    } else {
+      can_eat = true;
     }
     textScanning = false;
     setState(() {});
