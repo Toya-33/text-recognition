@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:rive/rive.dart';
 
 class IngredientScreen extends StatefulWidget {
   const IngredientScreen({super.key, required this.scannedText});
@@ -15,13 +11,12 @@ class IngredientScreen extends StatefulWidget {
 }
 
 class _IngredientScreenState extends State<IngredientScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Allergy Ingredient"),
+        title: const Text("List of Ingredient"),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -37,6 +32,7 @@ class _IngredientScreenState extends State<IngredientScreen> {
       ),
     );
   }
+
   @override
   void initState() {
     super.initState();

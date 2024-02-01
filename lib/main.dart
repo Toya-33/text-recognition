@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:text_recognition/detector.dart';
 
 void main() {
@@ -31,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Input Condition'),
+        title: Text('Allergy Detection'),
       ),
       body: Form(
         child: Column(
@@ -51,14 +49,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Enter your allergy here',
+                  labelText: 'Type here!',
                 ),
               ),
             ),
             ElevatedButton(
               onPressed: () {
                 // Access the input value
-                String ingredients = _ingredientController.text;
+                String ingredients = _ingredientController.text.toLowerCase();
 
                 // Apply conditional logic
                 if (ingredients.isNotEmpty) {
@@ -81,47 +79,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-// class MyRememberingWidget extends StatefulWidget {
-//   @override
-//   const MyRememberingWidget({super.key, required this.ingredients});
-//   _MyRememberingWidgetState createState() => _MyRememberingWidgetState();
-// }
-
-// class _MyRememberingWidgetState extends State<MyRememberingWidget> {
-//   final _inputController = TextEditingController();
-//   String _rememberedInput = '';
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _loadRememberedInput();
-//   }
-
-//   Future<void> _loadRememberedInput() async {
-//     final prefs = await SharedPreferences.getInstance();
-//     final rememberedInput = prefs.getString('input_key');
-//     setState(() {
-//       _rememberedInput = rememberedInput ?? '';
-//       _inputController.text = _rememberedInput;
-//     });
-//   }
-
-//   Future<void> _saveInput(String input) async {
-//     final prefs = await SharedPreferences.getInstance();
-//     await prefs.setString('input_key', input);
-//     setState(() {
-//       _rememberedInput = input;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: Text("list of ingredients"),
-//         ),
-//         body: Column(children: [Text(data)]),
-//       );
-//   }
-// }

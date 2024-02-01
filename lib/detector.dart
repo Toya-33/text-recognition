@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rive/rive.dart';
+import 'package:text_recognition/ingredients.dart';
 
 class DetectorScreen extends StatefulWidget {
   const DetectorScreen({super.key, required this.ingredient});
@@ -17,7 +18,7 @@ class DetectorScreen extends StatefulWidget {
 
 class _DetectorScreenState extends State<DetectorScreen> {
   bool textScanning = false;
-  bool can_eat = false;
+  bool can_eat = true;
   XFile? imageFile;
 
   String scannedText = "";
@@ -129,13 +130,17 @@ class _DetectorScreenState extends State<DetectorScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    child: Text(
-                      scannedText,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  Container(child: Text(can_eat.toString()))
+                  if (imageFile != null)
+                    Container(child: Text(can_eat.toString())),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => IngredientScreen(
+                                    scannedText: scannedText)));
+                      },
+                      child: Text("View Details"))
                 ],
               )),
         ),
@@ -166,19 +171,22 @@ class _DetectorScreenState extends State<DetectorScreen> {
     final textDetector = GoogleMlKit.vision.textRecognizer();
     RecognizedText recognizedText = await textDetector.processImage(inputImage);
     await textDetector.close();
-    can_eat = false;
+    can_eat = true;
     scannedText = "";
     for (TextBlock block in recognizedText.blocks) {
       for (TextLine line in block.lines) {
-        scannedText = "$scannedText${line.text}\n";
+        scannedText = "$scannedText${line.text}\n".toLowerCase();
       }
     }
-    if (scannedText.contains(widget.ingredient)) {
-      can_eat = false;
-    } else {
-      can_eat = true;
+    List<String> ingredients = widget.ingredient.split(',');
+    print(ingredients);
+    for (String ingredient in ingredients) {
+      if (scannedText.contains(ingredient)) {
+        can_eat = false;
+      }
     }
     textScanning = false;
+    print(scannedText);
     setState(() {});
   }
 
